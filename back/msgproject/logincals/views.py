@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Event
 from .serializers import EventSerializer
+from eclass.models import User, UserProfile
 
 class EventCreateView(APIView):
     permission_classes = [IsAuthenticated]
@@ -20,7 +21,7 @@ class EventListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        events = Event.objects.filter(owner=request.user.userprofile)
+        events = Event.objects.filter(owner=request.user_profile)
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
 
@@ -29,7 +30,7 @@ class EventDetailView(APIView):
 
     def get_object(self, pk):
         try:
-            return Event.objects.get(pk=pk, owner=self.request.user.userprofile)
+            return Event.objects.get(pk=pk, owner=self.request.user_profile)
         except Event.DoesNotExist:
             return None
 

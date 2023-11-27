@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Event
+from eclass.models import User, UserProfile
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,6 +9,6 @@ class EventSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # 현재 로그인한 사용자를 owner로 설정
-        user_profile = self.context['request'].user.userprofile
+        user_profile = self.context['request'].User
         validated_data['owner'] = user_profile
         return Event.objects.create(**validated_data)

@@ -24,6 +24,6 @@ class Classlist(models.Model):
 
 
 class UserClasslist(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     userclass = models.ManyToManyField(Classlist)
 
